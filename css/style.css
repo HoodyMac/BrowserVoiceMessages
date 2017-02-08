@@ -1,0 +1,53 @@
+body {
+  background: #EF6C00;
+  margin: 0px 0px;
+}
+
+.content {
+  padding-top: 20px;
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: 100;
+  margin: 0px 100px;
+  height: 100%;
+  background: #FF9800;
+}
+
+.message-form {
+  width: 80%;
+  height: 20%;
+  background: #FFEA00  ;
+  margin: 0 auto;
+  padding: 20px 20px;
+}
+
+.message-form label {
+  font-weight: bold;
+}
+
+.message-form textarea {
+  margin-top: 20px;
+  width: 80%;
+}
+
+.message-form .button {
+  margin-top: 10px;
+  width: 40%;
+  font-size: 20px;
+  background: #FF9800;
+  border: 0 none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.message-form .link {
+  width: 80%;
+  border-radius: 5px;
+  text-align: center;
+}
+
+[ng-click],
+[data-ng-click],
+[x-ng-click] {
+    cursor: pointer;
+}

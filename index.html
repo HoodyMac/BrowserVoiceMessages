@@ -6,10 +6,19 @@
   </head>
   <body ng-cloak ng-controller="VoiceMessagesController">
     <div class="content">
-      <p>{{ message }}</p>
+      <div class="message-form">
+        <form ng-submit="getLink()">
+          <label for="message">Your mesage:</label><br/>
+          <textarea id="message" rows="6" ng-model="message" placeholder="Your message here"></textarea><br/>
+          <input class="button" type="submit" value="Get link"/>
+        </form>
+        <input class="link" type="text" disabled="true" ng-model="link"/>
+      </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-route.min.js"></script>
     <script src="js/script.js"></script>
   </body>
 </html>
