@@ -9,8 +9,7 @@ angular.module('voiceMessagesApp', ['ngRoute'])
             });
   })
   .controller('VoiceMessagesController', function($scope, $routeParams, $location) {
-    var baseUrl = $location.protocol() + '://' + $location.host()
-                  + ':' + $location.port() + '/#!/';
+    var baseUrl = $location.absUrl().split('#!')[0] + '#!/';
     console.log(baseUrl);
     $scope.message = ''
     $scope.link = "https://github.com";
