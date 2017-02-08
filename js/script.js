@@ -9,19 +9,23 @@ angular.module('voiceMessagesApp', ['ngRoute'])
             });
   })
   .controller('VoiceMessagesController', function($scope, $routeParams, $location) {
+    var key = 3;
     var baseUrl = $location.absUrl().split('#!')[0] + '#!/';
-    console.log(baseUrl);
-    $scope.message = ''
+
+    $scope.message = "";
     $scope.link = "https://github.com";
+
     $scope.$on('$routeChangeSuccess', function() {
       if ($routeParams.message) {
-        var message = $routeParams.message;
-        notify(message);
+        var encryptedMessage = $routeParams.message;
+        var decryptedMessage = caesarShift(encryptedMessage, -key);
+        notify(decryptedMessage);
       }
     });
 
     $scope.getLink = function () {
-      $scope.link = baseUrl + $scope.message;
+      var encryptedMessage = caesarShift($scope.message, key);
+      $scope.link = baseUrl + encryptedMessage;
     };
 
     function notify(message) {
@@ -31,6 +35,21 @@ angular.module('voiceMessagesApp', ['ngRoute'])
       speechSynthesis.speak(utterance);
     }
 
-    // CryptoJS.AES.encrypt("Message", "Secret Passphrase")
-    // CryptoJS.AES.decrypt(encrypted, "Secret Passphrase")
+    function caesarShift(str, amount) {
+    	if (amount < 0)
+    		return caesarShift(str, amount + 26);
+    	var output = '';
+    	for (var i = 0; i < str.length; i ++) {
+    		var c = str[i];
+    		if (c.match(/[a-z]/i)) {
+    			var code = str.charCodeAt(i);
+    			if ((code >= 65) && (code <= 90))
+    				c = String.fromCharCode(((code - 65 + amount) % 26) + 65);
+    			else if ((code >= 97) && (code <= 122))
+    				c = String.fromCharCode(((code - 97 + amount) % 26) + 97);
+    		}
+    		output += c;
+    	}
+    	return output;
+    };
   });
