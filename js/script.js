@@ -25,6 +25,7 @@ angular.module('voiceMessagesApp', ['ngRoute'])
 
     $scope.getLink = function () {
       var encryptedMessage = caesarShift($scope.message, key);
+      encryptedMessage = encryptedMessage.replace(' ', '%20');
       $scope.link = baseUrl + encryptedMessage;
     };
 
