@@ -7,10 +7,11 @@
   <body ng-controller="VoiceMessagesController">
     <div class="content">
       <div class="message-form">
-        <form ng-submit="getLink()">
+        <form>
           <label for="message">Your mesage:</label><br/>
           <textarea id="message" rows="6" ng-model="message" placeholder="Your message here"></textarea><br/>
-          <input class="button" type="submit" value="Get link"/>
+          <button class="button getLink" ng-click="getLink()">Get link</button>
+          <button class="button test" ng-click="notify(message)">Test</button>
         </form>
         <input class="link" type="text" disabled="true" ng-model="link"/>
       </div>

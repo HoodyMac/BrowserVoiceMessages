@@ -13,13 +13,13 @@ angular.module('voiceMessagesApp', ['ngRoute'])
     var baseUrl = $location.absUrl().split('#!')[0] + '#!/';
 
     $scope.message = "";
-    $scope.link = "https://github.com";
+    $scope.link = "Your link will be here!";
 
     $scope.$on('$routeChangeSuccess', function() {
       if ($routeParams.message) {
         var encryptedMessage = $routeParams.message;
         var decryptedMessage = caesarShift(encryptedMessage, -key);
-        notify(decryptedMessage);
+        $scope.notify(decryptedMessage);
       }
     });
 
@@ -29,7 +29,7 @@ angular.module('voiceMessagesApp', ['ngRoute'])
       $scope.link = baseUrl + encryptedMessage;
     };
 
-    function notify(message) {
+    $scope.notify = function (message) {
       var voices = speechSynthesis.getVoices();
       var utterance = new SpeechSynthesisUtterance(message);
       utterance.voice = voices[0];
