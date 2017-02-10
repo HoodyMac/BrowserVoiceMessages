@@ -1,4 +1,4 @@
-angular.module('voiceMessagesApp', ['ngRoute'])
+angular.module('voiceMessagesApp', ['ngRoute', 'ngClipboard'])
   .config(function ($routeProvider) {
     $routeProvider
             .when('/:message', {
@@ -8,7 +8,7 @@ angular.module('voiceMessagesApp', ['ngRoute'])
               redirectTo: '/'
             });
   })
-  .controller('VoiceMessagesController', function($scope, $routeParams, $location) {
+  .controller('VoiceMessagesController', function($scope, $routeParams, $location, ngClipboard) {
     var key = 3;
     var baseUrl = $location.absUrl().split('#!')[0] + '#!/';
 
@@ -34,6 +34,10 @@ angular.module('voiceMessagesApp', ['ngRoute'])
       var utterance = new SpeechSynthesisUtterance(message);
       utterance.voice = voices[0];
       speechSynthesis.speak(utterance);
+    };
+
+    $scope.copyToClipboard = function () {
+      ngClipboard.toClipboard($scope.link);
     }
 
     function caesarShift(str, amount) {
