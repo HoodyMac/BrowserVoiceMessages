@@ -6,7 +6,7 @@
   </head>
   <body ng-controller="VoiceMessagesController">
     <div class="content">
-      <div class="message-form">
+      <div class="message-form" ng-hide="!sendMode">
         <form>
           <label for="message">Your mesage:</label><br/>
           <textarea id="message" rows="6" ng-model="message" placeholder="Your message here"></textarea><br/>
@@ -15,6 +15,11 @@
         </form>
         <input class="link" type="text" disabled="true" ng-model="link"/>
         <button class="button copy" ng-click="copyToClipboard(message)">Copy</button>
+      </div>
+      <div class="message-form" ng-hide="sendMode">
+        <h3>You have recieved a voice message!</h3>
+        <button class="button test" ng-click="replay()">Replay message</button><br/>
+        <button class="button test" ng-click="send()">Send message</button>
       </div>
     </div>
 

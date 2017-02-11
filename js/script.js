@@ -11,15 +11,19 @@ angular.module('voiceMessagesApp', ['ngRoute', 'ngClipboard'])
   .controller('VoiceMessagesController', function($scope, $routeParams, $location, ngClipboard) {
     var key = 3;
     var baseUrl = $location.absUrl().split('#!')[0] + '#!/';
+    var recievedMessage = '';
 
     $scope.message = "";
     $scope.link = "Your link will be here!";
+    $scope.sendMode = true;
 
     $scope.$on('$routeChangeSuccess', function() {
       if ($routeParams.message) {
-        var encryptedMessage = $routeParams.message;
-        var decryptedMessage = caesarShift(encryptedMessage, -key);
-        $scope.notify(decryptedMessage);
+        recievedMessage = caesarShift($routeParams.message, -key);
+        if (recievedMessage !== '') {
+          $scope.sendMode = false;
+        }
+        $scope.notify(recievedMessage);
       }
     });
 
@@ -38,6 +42,14 @@ angular.module('voiceMessagesApp', ['ngRoute', 'ngClipboard'])
 
     $scope.copyToClipboard = function () {
       ngClipboard.toClipboard($scope.link);
+    };
+
+    $scope.replay = function () {
+      $scope.notify(recievedMessage);
+    };
+
+    $scope.send = function () {
+      $scope.sendMode = true;
     }
 
     function caesarShift(str, amount) {
