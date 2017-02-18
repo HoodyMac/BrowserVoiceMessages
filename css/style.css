@@ -29,6 +29,11 @@ body {
   width: 80%;
 }
 
+.message-form select {
+  margin-top: 10px;
+  width: 80%;
+}
+
 .message-form .button {
   margin-top: 10px;
   width: 40%;

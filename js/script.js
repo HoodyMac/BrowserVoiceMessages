@@ -1,7 +1,7 @@
 angular.module('voiceMessagesApp', ['ngRoute', 'ngClipboard'])
   .config(function ($routeProvider) {
     $routeProvider
-            .when('/:message', {
+            .when('/:voice/:message', {
               templateUrl: 'index.html',
               controller: 'VoiceMessagesController'
             }).otherwise( {
@@ -16,10 +16,11 @@ angular.module('voiceMessagesApp', ['ngRoute', 'ngClipboard'])
     $scope.message = "";
     $scope.link = "Your link will be here!";
     $scope.sendMode = true;
+    $scope.voices = [];
 
     loadVoices();
     window.speechSynthesis.onvoiceschanged = function(e) {
-      loadVoices();
+      $scope.$apply(loadVoices());
     };
 
     $scope.$on('$routeChangeSuccess', function() {
@@ -28,19 +29,20 @@ angular.module('voiceMessagesApp', ['ngRoute', 'ngClipboard'])
         if (recievedMessage !== '') {
           $scope.sendMode = false;
         }
-        $scope.notify(recievedMessage, getVoiceByName('Google UK English Female'));
+        $scope.notify(recievedMessage, $routeParams.voice);
       }
     });
 
     $scope.getLink = function () {
       var encryptedMessage = caesarShift($scope.message, key);
-      encryptedMessage = encryptedMessage.replace(/ /g, '%20');
-      $scope.link = baseUrl + encryptedMessage;
+      path = $scope.selectedVoice + '/' + encryptedMessage;
+      path = path.replace(/ /g, '%20');
+      $scope.link = baseUrl + path;
     };
 
-    $scope.notify = function (message, voice) {
+    $scope.notify = function (message, voiceName) {
       var utterance = new SpeechSynthesisUtterance(message);
-      utterance.voice = voice;
+      utterance.voice = getVoiceByName(voiceName);
       speechSynthesis.speak(utterance);
     };
 
@@ -58,6 +60,7 @@ angular.module('voiceMessagesApp', ['ngRoute', 'ngClipboard'])
 
     function loadVoices() {
       $scope.voices = speechSynthesis.getVoices();
+      $scope.selectedVoice = 'native';
     }
 
     function getVoiceByName(name) {
