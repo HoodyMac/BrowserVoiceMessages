@@ -17,13 +17,18 @@ angular.module('voiceMessagesApp', ['ngRoute', 'ngClipboard'])
     $scope.link = "Your link will be here!";
     $scope.sendMode = true;
 
+    loadVoices();
+    window.speechSynthesis.onvoiceschanged = function(e) {
+      loadVoices();
+    };
+
     $scope.$on('$routeChangeSuccess', function() {
       if ($routeParams.message) {
         recievedMessage = caesarShift($routeParams.message, -key);
         if (recievedMessage !== '') {
           $scope.sendMode = false;
         }
-        $scope.notify(recievedMessage);
+        $scope.notify(recievedMessage, getVoiceByName('Google UK English Female'));
       }
     });
 
@@ -33,10 +38,9 @@ angular.module('voiceMessagesApp', ['ngRoute', 'ngClipboard'])
       $scope.link = baseUrl + encryptedMessage;
     };
 
-    $scope.notify = function (message) {
-      var voices = speechSynthesis.getVoices();
+    $scope.notify = function (message, voice) {
       var utterance = new SpeechSynthesisUtterance(message);
-      utterance.voice = voices[0];
+      utterance.voice = voice;
       speechSynthesis.speak(utterance);
     };
 
@@ -50,6 +54,16 @@ angular.module('voiceMessagesApp', ['ngRoute', 'ngClipboard'])
 
     $scope.send = function () {
       $scope.sendMode = true;
+    }
+
+    function loadVoices() {
+      $scope.voices = speechSynthesis.getVoices();
+    }
+
+    function getVoiceByName(name) {
+      return $scope.voices.filter(function (voice) {
+        return voice.name === name;
+      })[0];
     }
 
     function caesarShift(str, amount) {
