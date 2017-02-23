@@ -55,11 +55,15 @@ angular.module('voiceMessagesApp', ['ngRoute', 'ngClipboard'])
 
     $scope.send = function () {
       $scope.sendMode = true;
-    }
+    };
+
+    $scope.saveVoice = function () {
+      localStorage.setItem('voice', $scope.selectedVoice);
+    };
 
     function loadVoices() {
       $scope.voices = speechSynthesis.getVoices();
-      $scope.selectedVoice = 'native';
+      $scope.selectedVoice = localStorage.getItem('voice');
     }
 
     function getVoiceByName(name) {
