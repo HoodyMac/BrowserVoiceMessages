@@ -40,6 +40,7 @@ angular.module('voiceMessagesApp', ['ngRoute', 'ngClipboard'])
     };
 
     $scope.notify = function (message, voiceName) {
+      speechSynthesis.cancel();
       var utterance = new SpeechSynthesisUtterance(message);
       utterance.voice = getVoiceByName(voiceName);
       speechSynthesis.speak(utterance);
