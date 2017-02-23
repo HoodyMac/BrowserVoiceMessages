@@ -36,8 +36,7 @@ angular.module('voiceMessagesApp', ['ngRoute', 'ngClipboard'])
     $scope.getLink = function () {
       var encryptedMessage = caesarShift($scope.message, key);
       path = $scope.selectedVoice + '/' + encryptedMessage;
-      path = path.replace(/ /g, '%20');
-      $scope.link = baseUrl + path;
+      $scope.link = encodeURI(baseUrl + path);
     };
 
     $scope.notify = function (message, voiceName) {
