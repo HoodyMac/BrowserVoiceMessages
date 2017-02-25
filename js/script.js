@@ -62,6 +62,10 @@ angular.module('voiceMessagesApp', ['ngRoute', 'ngClipboard'])
       localStorage.setItem('voice', $scope.selectedVoice);
     };
 
+    $scope.stop = function () {
+      speechSynthesis.cancel();
+    };
+
     function loadVoices() {
       $scope.voices = speechSynthesis.getVoices();
       $scope.selectedVoice = localStorage.getItem('voice');
